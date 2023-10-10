@@ -3,73 +3,73 @@
 
 // Read Tanzu Mission Control Tanzu Kubernetes Grid vSphere workload cluster : fetch cluster details for already present TKG vSphere cluster
 data "tanzu-mission-control_cluster" "ready_only_cluster_view" {
-  management_cluster_name = "h2o-3-14816" // Required
-  provisioner_name        = "workload-prov"          // Required
-  name                    = "tmc-sm"       // Required
+  management_cluster_name = "sp-tkg-mgmt" // Required
+  provisioner_name        = "workload-clusters"          // Required
+  name                    = "workload-cls-1"       // Required
 }
 
 // Create Tanzu Mission Control Tanzu Kubernetes Grid vSphere workload cluster entry
 # resource "tanzu-mission-control_cluster" "create_tkg_vsphere_cluster" {
-#   management_cluster_name = "<management-cluster>" // Default: attached
-#   provisioner_name        = "<prov-name>"          // Default: attached
-#   name                    = "<cluster-name>"       // Required
+#   management_cluster_name = "sp-tkg-mgmt" // Default: attached
+#   provisioner_name        = "workload-clusters"          // Default: attached
+#   name                    = "workload-cls-3"       // Required
 
 #   meta {
 #     description = "description of the cluster"
-#     labels      = { "key" : "value" }
+#     labels      = { "automation" : "terraform" }
 #   }
 
 #   spec {
-#     cluster_group = "<cluster-group>" // Default: default
+#     cluster_group = "sp-cluster-grp" // Default: default
 #     tkg_vsphere {
 #       advanced_configs {
-#         key   = "<key>"
-#         value = "<value>"
+#         key   = "test"
+#         value = "test"
 #       }
 #       settings {
 #         network {
 #           pods {
 #             cidr_blocks = [
-#               "<pods-cidr-blocks>", // Required
+#               "172.20.0.0/16", // Required
 #             ]
 #           }
 
 #           services {
 #             cidr_blocks = [
-#               "<services-cidr-blocks>", // Required
+#               "10.96.0.0/16", // Required
 #             ]
 #           }
 
-#           api_server_port         = api-server-port-default-value
-#           control_plane_end_point = "<end-point>" // Optional
+#           api_server_port         = 6443
+#           control_plane_end_point = "" // Optional
 #         }
 
 #         security {
-#           ssh_key = "<ssh-key>" // Required
+#           ssh_key = "default" // Required
 #         }
 #       }
 
 #       distribution {
-#         os_arch    = "<os-arch>"
-#         os_name    = "<os-name>"
-#         os_version = "<os-version>"
-#         version    = "<version>" // Required
+#         os_arch    = ""
+#         os_name    = ""
+#         os_version = ""
+#         version    = "v1.23.8+vmware.3-tkg.1.ubuntu" // Required
 
 #         workspace {
-#           datacenter        = "<datacenter>"        // Required
-#           datastore         = "<datastore>"         // Required
-#           workspace_network = "<workspace_network>" // Required
-#           folder            = "<folder>"            // Required
-#           resource_pool     = "<resource_pool>"     // Required
+#           datacenter        = "/vc01"        // Required
+#           datastore         = "/vc01/datastore/vsanDatastore"         // Required
+#           workspace_network = "/vc01/vc01-dvs/user-workload" // Required
+#           folder            = "/vc01/Namespaces"            // Required
+#           resource_pool     = "/vc01/vc01cl01/Namespaces"     // Required
 #         }
 #       }
 
 #       topology {
 #         control_plane {
 #           vm_config {
-#             cpu       = "<cpu>"       // Required
-#             disk_size = "<disk_size>" // Required
-#             memory    = "<memory>"    // Required
+#             cpu       = "8"       // Required
+#             disk_size = "100" // Required
+#             memory    = "65760"    // Required
 #           }
 
 #           high_availability = false // Default: false
@@ -77,26 +77,20 @@ data "tanzu-mission-control_cluster" "ready_only_cluster_view" {
 
 #         node_pools {
 #           spec {
-#             worker_node_count = "<worker-node-count>" // Required
-#             cloud_label = {
-         
-#             }
-#             node_label = {
-#               "<key>" : "<val>"
-#             }
+#             worker_node_count = "2" // Required
 
 #             tkg_vsphere {
 #               vm_config {
-#                 cpu       = "<cpu>"       // Required
-#                 disk_size = "<disk_size>" // Required
-#                 memory    = "<memory>"    // Required
+#                 cpu       = "8"       // Required
+#                 disk_size = "100" // Required
+#                 memory    = "65760"    // Required
 #               }
 #             }
 #           }
 
 #           info {
-#             name        = "<node-pool-name>" // Required
-#             description = "<node-pool-description>"
+#             name        = "sp-node-pool" // Required
+#             description = "default node pool for the cluster"
 #           }
 #         }
 #       }
